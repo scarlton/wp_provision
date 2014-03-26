@@ -1,7 +1,4 @@
 {
   "run_list": [ "recipe[wp-slave]" ],
-  "server_name": "lolz.com",
-  "apache": {
-    "listen_ports": [ 8080 ]
-  }
+  "server_name": "superlolz.com"
 }
