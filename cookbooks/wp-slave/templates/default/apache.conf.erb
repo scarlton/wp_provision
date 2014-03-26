@@ -1,0 +1,44 @@
+<VirtualHost *:8080>
+  ServerName <%= @server_name %>
+  ServerAlias www.<%= @server_name %> <%= @server_name %>
+  DocumentRoot /var/www/vhosts/<%= @server_name %>/http_docs
+  RewriteEngine On
+
+  <Location /server-status>
+    SetHandler server-status
+
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1
+  </Location>
+
+  LogLevel info
+  LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" forwarded
+  ErrorLog /var/log/apache2/<%= @server_name %>-error.log
+  CustomLog /var/log/apache2/<%= @server_name %>-access.log forwarded
+
+  Include /var/www/vhosts/<%= @server_name %>/conf/*http.conf
+
+</VirtualHost>
+<VirtualHost *:443>
+  ServerName <%= @server_name %>
+  ServerAlias www.<%= @server_name %> <%= @server_name %>
+  DocumentRoot /var/www/vhosts/<%= @server_name %>/http_docs
+  RewriteEngine On
+
+  <Location /server-status>
+    SetHandler server-status
+
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1
+  </Location>
+
+  LogLevel info
+  LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" forwarded
+  ErrorLog /var/log/apache2/<%= @server_name %>-error.log
+  CustomLog /var/log/apache2/<%= @server_name %>-access.log forwarded
+
+  Include /var/www/vhosts/<%= @server_name %>/conf/*http.conf
+
+</VirtualHost>
