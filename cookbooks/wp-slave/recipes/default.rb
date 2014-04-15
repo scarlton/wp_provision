@@ -9,14 +9,12 @@
 
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 
-
 sites = data_bag("rockstar_hosting")
 
 sites.each do |site|
   opts = data_bag_item("rockstar_hosting", site)
 
   # generate random values
-  node.set['wordpress']['db']['password'] = secure_password
   node.set['wordpress']['keys']['auth'] = secure_password
   node.set['wordpress']['keys']['secure_auth'] = secure_password
   node.set['wordpress']['keys']['logged_in'] = secure_password
@@ -75,7 +73,7 @@ sites.each do |site|
     variables(
       :database        => opts['db_name'],
       :user            => opts['db_user'],
-      :password        => node['wordpress']['db']['password'],
+      :password        => opts['db_password'],
       :auth_key        => node['wordpress']['keys']['auth'],
       :secure_auth_key => node['wordpress']['keys']['secure_auth'],
       :logged_in_key   => node['wordpress']['keys']['logged_in'],
